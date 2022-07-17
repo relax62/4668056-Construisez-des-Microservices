@@ -29,8 +29,11 @@ public class ProductController {
     @ApiOperation(value ="Liste des produits par ordre alphabétique")
     @GetMapping(value = "/Produits/trierProduitsParOrdreAlphabetique")
     public List<Product> trierProduitsParOrdreAlphabetique(){
+        /*
         Sort sort = Sort.by("Nom").ascending();
         return productDao.findAll(sort);
+        */
+        return productDao.findAllByOrderByNom();
     }
 /*    @ApiOperation(value = "Renvoie la marge d'un produit à partir de son Id")
     @GetMapping(value = "/Produits/Marge/{id}")
