@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api( "API pour les opérations CRUD sur les produits.")
@@ -22,6 +23,38 @@ public class ProductController {
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;
     }
+
+/*    @ApiOperation(value = "Renvoie la marge d'un produit à partir de son Id")
+    @GetMapping(value = "/Produits/Marge/{id}")
+    public int calculerMargeProduit(@PathVariable int id){
+        int margin = 0;
+        Product produit = productDao.findById(id);
+        if(produit==null){
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        }
+        else {
+            //return sell price - buying price
+            margin = produit.getPrix() - produit.getPrixAchat();
+        }
+        return margin;
+    }
+*/
+    @ApiOperation(value = "Renvoie la marge de tous les produits")
+    @GetMapping(value = "/Produits/AdminProduits")
+    public Iterable<String> calculerMargeProduit(){
+        int margin;
+        List<String> list = new ArrayList<>();
+        String myProduct = "";
+        List<Product> products = productDao.findAll();
+        for (Product product : products) {
+            //return sell price - buying price
+            margin = product.getPrix() - product.getPrixAchat();
+            list.add(product + ": " + margin);
+            }
+        return list;
+        }
+
+
 
     @DeleteMapping (value = "/Produits/{id}")
     public void supprimerProduit(@PathVariable int id) {
