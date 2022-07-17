@@ -5,6 +5,7 @@ import com.ecommerce.micrommerce.web.exceptions.ProduitIntrouvableException;
 import com.ecommerce.micrommerce.web.model.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,6 +25,12 @@ public class ProductController {
         this.productDao = productDao;
     }
 
+    @ApiOperation(value ="Liste des produits par ordre alphabétique")
+    @GetMapping(value = "/Produits/trierProduitsParOrdreAlphabetique")
+    public List<Product> trierProduitsParOrdreAlphabetique(){
+        Sort sort = Sort.by("Nom").ascending();
+        return productDao.findAll(sort);
+    }
 /*    @ApiOperation(value = "Renvoie la marge d'un produit à partir de son Id")
     @GetMapping(value = "/Produits/Marge/{id}")
     public int calculerMargeProduit(@PathVariable int id){
